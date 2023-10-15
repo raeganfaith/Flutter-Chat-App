@@ -226,51 +226,62 @@ class _RegisterPageState extends State<RegisterPage> {
                     fontSize: 20,
                     color: AppColor.mainOrange,
                   ),
-
-                  const SizedBox(height: 50),
-
-                  //email textfield
-                  MyTextField(
-                      controller: emailController,
-                      hintText: 'Email',
-                      obscureText: false),
-
-                  const SizedBox(height: 10),
-
-                  //password textfield
-                  MyTextField(
-                      controller: passwordController,
-                      hintText: 'Password',
-                      obscureText: true),
-
-                  const SizedBox(height: 10),
-
-                  //confirm password textfield
-                  MyTextField(
-                      controller: confirmPasswordController,
-                      hintText: 'Confirm Password',
-                      obscureText: true),
-
-                  const SizedBox(height: 25),
-
-                  //sign up button
-                  MyButton(onTap: signUp, text: "Sign Up"),
-
-                  const SizedBox(height: 50),
-
-                  //not a member? register now
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Already have an account?'),
-                      const SizedBox(width: 4),
-                      GestureDetector(
-                          onTap: widget.onTap,
-                          child: const Text(
-                            'Sign In Now',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                    ],
+                ),
+                const SizedBox(height: 50),
+                _profileImageField(),
+                const SizedBox(height: 15),
+                MyTextField(
+                    controller: usernameController,
+                    hintText: 'Username',
+                    obscureText: false),
+                const SizedBox(height: 15),
+                MyTextField(
+                    controller: emailController,
+                    hintText: 'Email',
+                    obscureText: false),
+                const SizedBox(height: 15),
+                MyTextField(
+                    controller: passwordController,
+                    hintText: 'Password',
+                    obscureText: true),
+                const SizedBox(height: 15),
+                MyTextField(
+                    controller: confirmPasswordController,
+                    hintText: 'Confirm Password',
+                    obscureText: true),
+                const SizedBox(height: 40),
+                Button(
+                  title: 'Register',
+                  filledIn: true,
+                  onPressed: signUp,
+                ),
+                const SizedBox(height: 80),
+                Center(
+                  child: RichText(
+                    text: TextSpan(children: [
+                      const TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'JosefinSans',
+                            color: AppColor.black,
+                            fontSize: 16,
+                          ),
+                          text: "Already have an account? "),
+                      TextSpan(
+                          style: const TextStyle(
+                            fontFamily: 'JosefinSans',
+                            color: AppColor.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          text: 'Sign In Now',
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()));
+                            })
+                    ]),
                   ),
                 ),
               ],
