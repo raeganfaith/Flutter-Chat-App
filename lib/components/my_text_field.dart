@@ -1,3 +1,4 @@
+import 'package:chat_app/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
@@ -18,15 +19,21 @@ class MyTextField extends StatelessWidget {
       obscureText: obscureText,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(10)
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(10)
         ),
-        fillColor: Colors.grey[200],
+        fillColor: AppColor.offWhite,
         filled: true,
         hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.grey),
+        hintStyle: const TextStyle(color: Colors.black54),
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(10)
+        ),
       ),
     );
   }
