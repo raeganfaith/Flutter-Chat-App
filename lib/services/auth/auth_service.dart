@@ -20,9 +20,7 @@ class AuthService extends ChangeNotifier {
       _fireStore.collection('users').doc(userCredential.user!.uid).set({
         'uid': userCredential.user!.uid,
         'email': email,
-      },
-      SetOptions(merge: true)
-      );
+      }, SetOptions(merge: true));
 
       return userCredential;
     }
@@ -40,10 +38,11 @@ class AuthService extends ChangeNotifier {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       //after creating the user, create new document for the user in the users collection
-      _fireStore.collection('users').doc(userCredential.user!.uid).set({
-        'uid': userCredential.user!.uid,
-        'email': email,
-      });
+      // _fireStore.collection('users').doc(userCredential.user!.uid).set({
+      //   'uid': userCredential.user!.uid,
+      //   'email': email,
+      //   'password': password,
+      // });
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
