@@ -1,10 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:chat_app/pages/login_page.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:chat_app/utils/image_picker.dart';
 import 'package:chat_app/utils/save_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../components/my_text_field.dart';
@@ -27,7 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final confirmPasswordController = TextEditingController();
 
   Uint8List? _image;
-  bool _isImageSelected = false;
+  // bool _isImageSelected = false;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   Future<void> _selectImage() async {
@@ -35,11 +37,16 @@ class _RegisterPageState extends State<RegisterPage> {
     if (img != null) {
       setState(() {
         _image = img;
-        _isImageSelected = true;
+        // _isImageSelected = true;
       });
     } else {
-      // Handle the case where the user didn't select an image
-      // You can show a snackbar or a toast message to inform the user
+      final ByteData data =
+          await rootBundle.load('assets/images/static-profile.png');
+      Uint8List defaultImageBytes = data.buffer.asUint8List();
+      setState(() {
+        _image = defaultImageBytes;
+        // _isImageSelected = true;
+      });
     }
   }
 
@@ -63,30 +70,27 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  //sign up user
-  // void signUp() async {
-  //   if (passwordController.text != confirmPasswordController.text) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Password do not match!"),
-  //       ),
-  //     );
-  //     return;
-  //   }
-
-  //   //get auth service
-  //   final authService = Provider.of<AuthService>(context, listen: false);
-
-  //   try {
-  //     await authService.signUpWithEmailandPassword(
-  //         emailController.text, passwordController.text);
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(e.toString()),
-  //       ),
-  //     );
-  //   }
+  // Widget _profileImageField() {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       _selectImage(); // Call the asynchronous function directly
+  //     },
+  //     child: CircleAvatar(
+  //       radius: 50,
+  //       backgroundColor: Colors.grey[400],
+  //       backgroundImage: _image != null
+  //           ? MemoryImage(_image!)
+  //           : AssetImage('assets/images/static-profile.png')
+  //               as ImageProvider<Object>,
+  //       child: _image == null
+  //           ? Icon(
+  //               Icons.camera_alt,
+  //               size: 40,
+  //               color: Colors.white,
+  //             )
+  //           : null,
+  //     ),
+  //   );
   // }
 
   Future<void> signUp() async {
@@ -102,13 +106,19 @@ class _RegisterPageState extends State<RegisterPage> {
     String username = usernameController.text;
 
     // Check if the image and username are selected
-    if (_isImageSelected == false || username.isEmpty) {
+    if (username.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Please select an image and enter a username"),
+          content: Text("Please enter a username"),
         ),
       );
       return;
+    }
+
+    if (_image == null) {
+      final ByteData data =
+          await rootBundle.load('assets/images/static-profile.png');
+      _image = data.buffer.asUint8List();
     }
 
     // Get auth service
@@ -119,8 +129,13 @@ class _RegisterPageState extends State<RegisterPage> {
           await authService.signUpWithEmailandPassword(
               emailController.text, passwordController.text);
 
+      String uid = userCredential.user!.uid;
+      String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      String imageName = '$uid-$timestamp.png';
+
       if (_image != null) {
-        String imageUrl = await StoreImage().saveData(file: _image!);
+        String imageUrl = await StoreImage()
+            .saveData(uid: uid, imageName: imageName, file: _image!);
 
         // After creating the user, create a new document for the user in the users collection
         await _fireStore.collection('users').doc(userCredential.user!.uid).set({

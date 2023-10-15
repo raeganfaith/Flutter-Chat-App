@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:image_picker/image_picker.dart';
 
-// pickImage(ImageSource source) async {
 Future<Uint8List?> pickImage(ImageSource source) async {
   try {
     final ImagePicker _imagePicker = ImagePicker();
