@@ -1,24 +1,25 @@
+import 'package:chat_app/components/button.dart';
+import 'package:chat_app/constants/colors.dart';
+import 'package:chat_app/pages/login_page.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../components/my_text_field.dart';
-import '../components/my_button.dart';
 
 class RegisterPage extends StatefulWidget {
-  final void Function()? onTap;
-  const RegisterPage({super.key, required this.onTap});
+  const RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  //text controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-  //sign up user
   void signUp() async {
     if (passwordController.text != confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -29,13 +30,18 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    //get auth service
     final authService = Provider.of<AuthService>(context, listen: false);
 
     try {
       await authService.signUpWithEmailandPassword(
           emailController.text, passwordController.text);
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString()),
@@ -47,80 +53,107 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 50),
-                  //logo
-                  Icon(
-                    Icons.message,
-                    size: 100,
-                    color: Colors.grey[800],
-                  ),
-
-                  const SizedBox(height: 50),
-
-                  //create account message
-                  const Text(
-                    "Create an Account Here!",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-
-                  const SizedBox(height: 50),
-
-                  //email textfield
-                  MyTextField(
-                      controller: emailController,
-                      hintText: 'Email',
-                      obscureText: false),
-
-                  const SizedBox(height: 10),
-
-                  //password textfield
-                  MyTextField(
-                      controller: passwordController,
-                      hintText: 'Password',
-                      obscureText: true),
-
-                  const SizedBox(height: 10),
-
-                  //confirm password textfield
-                  MyTextField(
-                      controller: confirmPasswordController,
-                      hintText: 'Confirm Password',
-                      obscureText: true),
-
-                  const SizedBox(height: 25),
-
-                  //sign up button
-                  MyButton(onTap: signUp, text: "Sign Up"),
-
-                  const SizedBox(height: 50),
-
-                  //not a member? register now
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Row(
                     children: [
-                      const Text('Already have an account?'),
-                      const SizedBox(width: 4),
-                      GestureDetector(
-                          onTap: widget.onTap,
-                          child: const Text(
-                            'Sign In Now',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                        color: AppColor.black,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ],
                   ),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: SvgPicture.asset(
+                      'assets/images/logo.svg',
+                      width: 50,
+                      height: 50,
+                      color: AppColor.mainOrange,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  "CREATE\nACCOUNT",
+                  style: TextStyle(
+                      fontSize: 35,
+                      color: AppColor.mainOrange,
+                      fontFamily: 'KronaOne'
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "We're happy to see you here!",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: AppColor.mainOrange,
+                  ),
+                ),
+                const SizedBox(height: 50),
+                MyTextField(
+                  controller: emailController,
+                  hintText: 'Email',
+                  obscureText: false
+                ),
+                const SizedBox(height: 15),
+                MyTextField(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  obscureText: true
+                ),
+                const SizedBox(height: 15),
+                MyTextField(
+                  controller: confirmPasswordController,
+                  hintText: 'Confirm Password',
+                  obscureText: true
+                ),
+                const SizedBox(height: 40),
+                Button(
+                  title: 'Register',
+                  filledIn: true,
+                  onPressed: signUp,
+                ),
+                const SizedBox(height: 80),
+                Center(
+                  child: RichText(
+                    text: TextSpan(children: [
+                      const TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'JosefinSans',
+                            color: AppColor.black,
+                            fontSize: 16,
+                          ),
+                          text: "Already have an account? "),
+                      TextSpan(
+                        style: const TextStyle(
+                          fontFamily: 'JosefinSans',
+                          color: AppColor.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        text: 'Sign In Now',
+                        recognizer: TapGestureRecognizer()..onTap = () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                          }
+                      )
+                    ]),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

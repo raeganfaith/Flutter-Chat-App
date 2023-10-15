@@ -1,19 +1,22 @@
-import 'package:chat_app/components/my_button.dart';
 import 'package:chat_app/components/my_text_field.dart';
+import 'package:chat_app/components/button.dart';
+import 'package:chat_app/constants/colors.dart';
+import 'package:chat_app/pages/home_page.dart';
+import 'package:chat_app/pages/register_page.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatefulWidget {
-  final void Function()? onTap;
-  const LoginPage({super.key, required this.onTap});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  //text controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -25,7 +28,13 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await authService.signInWithEmailandPassword(
           emailController.text, passwordController.text);
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -39,72 +48,103 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: AppColor.mainOrange,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 50),
-                  //logo
-                  Icon(
-                    Icons.message,
-                    size: 100,
-                    color: Colors.grey[800],
-                  ),
-
-                  const SizedBox(height: 50),
-
-                  //welcome back message
-                  const Text(
-                    "Welcome Back!",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-
-                  const SizedBox(height: 50),
-
-                  //email textfield
-                  MyTextField(
-                      controller: emailController,
-                      hintText: 'Email',
-                      obscureText: false),
-
-                  const SizedBox(height: 10),
-
-                  //password textfield
-                  MyTextField(
-                      controller: passwordController,
-                      hintText: 'Password',
-                      obscureText: true),
-
-                  const SizedBox(height: 25),
-
-                  //sign in button
-                  MyButton(onTap: signIn, text: "Sign In"),
-
-                  const SizedBox(height: 50),
-
-                  //not a member? register now
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Row(
                     children: [
-                      const Text('Not a member?'),
-                      const SizedBox(width: 4),
-                      GestureDetector(
-                          onTap: widget.onTap,
-                          child: const Text(
-                            'Register Now',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                        color: AppColor.white,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ],
                   ),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: SvgPicture.asset(
+                      'assets/images/logo.svg',
+                      width: 50,
+                      height: 50,
+                      color: AppColor.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  "WELCOME\nBACK!",
+                  style: TextStyle(
+                      fontSize: 35,
+                      color: AppColor.white,
+                      fontFamily: 'KronaOne'
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "Enter your email and password\nto sign in.",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: AppColor.white,
+                  ),
+                ),
+                const SizedBox(height: 70),
+                MyTextField(
+                  controller: emailController,
+                  hintText: 'Email',
+                  obscureText: false
+                ),
+                const SizedBox(height: 15),
+                MyTextField(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  obscureText: true
+                ),
+                const SizedBox(height: 40),
+                SecondaryButton(
+                  title: 'Log In',
+                  onPressed: signIn,
+                ),
+                const SizedBox(height: 80),
+                Center(
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        const TextSpan(
+                            style: TextStyle(
+                              fontFamily: 'JosefinSans',
+                              color: AppColor.white,
+                              fontSize: 16,
+                            ),
+                            text: "Not a member? "),
+                        TextSpan(
+                          style: const TextStyle(
+                            fontFamily: 'JosefinSans',
+                            color: AppColor.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          text: 'Register Now',
+                          recognizer: TapGestureRecognizer()..onTap = () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
+                          }
+                        )
+                      ]
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

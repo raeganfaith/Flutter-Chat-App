@@ -1,3 +1,4 @@
+import 'package:chat_app/constants/colors.dart';
 import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/services/auth/auth_gate.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
@@ -19,9 +20,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AuthGate(),
+      theme: ThemeData(
+        fontFamily: 'JosefinSans',
+        scaffoldBackgroundColor: AppColor.white,
+      ),
+      home: const AuthGate(),
     );
   }
 }
