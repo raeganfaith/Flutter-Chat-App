@@ -1,8 +1,6 @@
 import 'package:chat_app/components/button.dart';
 import 'package:chat_app/constants/colors.dart';
-import 'package:chat_app/pages/login_page.dart';
-import 'dart:typed_data';
-
+import 'package:chat_app/pages/landing_page.dart';
 import 'package:chat_app/pages/login_page.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:chat_app/utils/image_picker.dart';
@@ -62,7 +60,7 @@ class _RegisterPageState extends State<RegisterPage> {
         backgroundColor: Colors.grey[400],
         backgroundImage: _image != null ? MemoryImage(_image!) : null,
         child: _image == null
-            ? Icon(
+            ? const Icon(
                 Icons.camera_alt,
                 size: 40,
                 color: Colors.white,
@@ -179,113 +177,128 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                        color: AppColor.black,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: SvgPicture.asset(
-                      'assets/images/logo.svg',
-                      width: 50,
-                      height: 50,
-                      color: AppColor.mainOrange,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 25, 15, 10),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                      color: AppColor.black,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Landing()),
+                        );
+                      },
                     ),
-                  ),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: SvgPicture.asset(
+                          'assets/images/logo.svg',
+                          width: 50,
+                          height: 50,
+                          color: AppColor.mainOrange,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                const Text(
-                  "CREATE\nACCOUNT",
-                  style: TextStyle(
-                      fontSize: 35,
-                      color: AppColor.mainOrange,
-                      fontFamily: 'KronaOne'),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "CREATE\nACCOUNT",
+                      style: TextStyle(
+                          fontSize: 35,
+                          color: AppColor.mainOrange,
+                          fontFamily: 'KronaOne'),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "We're happy to see you here!",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: AppColor.mainOrange,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                const Text(
-                  "We're happy to see you here!",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: AppColor.mainOrange,
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 30),
+                    _profileImageField(),
+                    const SizedBox(height: 20),
+                    MyTextField(
+                        controller: usernameController,
+                        hintText: 'Username',
+                        obscureText: false),
+                    const SizedBox(height: 10),
+                    MyTextField(
+                        controller: emailController,
+                        hintText: 'Email',
+                        obscureText: false),
+                    const SizedBox(height: 10),
+                    MyTextField(
+                        controller: passwordController,
+                        hintText: 'Password',
+                        obscureText: true),
+                    const SizedBox(height: 10),
+                    MyTextField(
+                        controller: confirmPasswordController,
+                        hintText: 'Confirm Password',
+                        obscureText: true),
+                    const SizedBox(height: 40),
+                    Button(
+                      title: 'Register',
+                      filledIn: true,
+                      onPressed: signUp,
+                    ),
+                    const SizedBox(height: 35),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RichText(
+                        text: TextSpan(children: [
+                          const TextSpan(
+                              style: TextStyle(
+                                fontFamily: 'JosefinSans',
+                                color: AppColor.black,
+                                fontSize: 16,
+                              ),
+                              text: "Already have an account? "),
+                          TextSpan(
+                              style: const TextStyle(
+                                fontFamily: 'JosefinSans',
+                                color: AppColor.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                              text: 'Sign In Now',
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const LoginPage()));
+                                })
+                        ]),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 50),
-                _profileImageField(),
-                const SizedBox(height: 15),
-                MyTextField(
-                    controller: usernameController,
-                    hintText: 'Username',
-                    obscureText: false),
-                const SizedBox(height: 15),
-                MyTextField(
-                    controller: emailController,
-                    hintText: 'Email',
-                    obscureText: false),
-                const SizedBox(height: 15),
-                MyTextField(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    obscureText: true),
-                const SizedBox(height: 15),
-                MyTextField(
-                    controller: confirmPasswordController,
-                    hintText: 'Confirm Password',
-                    obscureText: true),
-                const SizedBox(height: 40),
-                Button(
-                  title: 'Register',
-                  filledIn: true,
-                  onPressed: signUp,
-                ),
-                const SizedBox(height: 80),
-                Center(
-                  child: RichText(
-                    text: TextSpan(children: [
-                      const TextSpan(
-                          style: TextStyle(
-                            fontFamily: 'JosefinSans',
-                            color: AppColor.black,
-                            fontSize: 16,
-                          ),
-                          text: "Already have an account? "),
-                      TextSpan(
-                          style: const TextStyle(
-                            fontFamily: 'JosefinSans',
-                            color: AppColor.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                          text: 'Sign In Now',
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const LoginPage()));
-                            })
-                    ]),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

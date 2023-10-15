@@ -2,6 +2,7 @@ import 'package:chat_app/components/my_text_field.dart';
 import 'package:chat_app/components/button.dart';
 import 'package:chat_app/constants/colors.dart';
 import 'package:chat_app/pages/home_page.dart';
+import 'package:chat_app/pages/landing_page.dart';
 import 'package:chat_app/pages/register_page.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:flutter/gestures.dart';
@@ -51,101 +52,117 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: AppColor.mainOrange,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                        color: AppColor.white,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 25, 15, 50),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                      color: AppColor.white,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Landing()),
+                        );
+                      },
+                    ),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: SvgPicture.asset(
+                          'assets/images/logo.svg',
+                          width: 50,
+                          height: 50,
+                          color: AppColor.white,
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: SvgPicture.asset(
-                      'assets/images/logo.svg',
-                      width: 50,
-                      height: 50,
-                      color: AppColor.white,
                     ),
-                  ),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                const Text(
-                  "WELCOME\nBACK!",
-                  style: TextStyle(
-                      fontSize: 35,
-                      color: AppColor.white,
-                      fontFamily: 'KronaOne'
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  "Enter your email and password\nto sign in.",
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: AppColor.white,
-                  ),
-                ),
-                const SizedBox(height: 70),
-                MyTextField(
-                  controller: emailController,
-                  hintText: 'Email',
-                  obscureText: false
-                ),
-                const SizedBox(height: 15),
-                MyTextField(
-                  controller: passwordController,
-                  hintText: 'Password',
-                  obscureText: true
-                ),
-                const SizedBox(height: 40),
-                SecondaryButton(
-                  title: 'Log In',
-                  onPressed: signIn,
-                ),
-                const SizedBox(height: 80),
-                Center(
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        const TextSpan(
-                            style: TextStyle(
-                              fontFamily: 'JosefinSans',
-                              color: AppColor.white,
-                              fontSize: 16,
-                            ),
-                            text: "Not a member? "),
-                        TextSpan(
-                          style: const TextStyle(
-                            fontFamily: 'JosefinSans',
-                            color: AppColor.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                          text: 'Register Now',
-                          recognizer: TapGestureRecognizer()..onTap = () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
-                          }
-                        )
-                      ]
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "WELCOME\nBACK!",
+                      style: TextStyle(
+                          fontSize: 35,
+                          color: AppColor.white,
+                          fontFamily: 'KronaOne'
+                      ),
                     ),
-                  ),
+                    SizedBox(height: 10),
+                    Text(
+                      "Enter your email and password\nto sign in.",
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: AppColor.white,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 70),
+                    MyTextField(
+                      controller: emailController,
+                      hintText: 'Email',
+                      obscureText: false
+                    ),
+                    const SizedBox(height: 15),
+                    MyTextField(
+                      controller: passwordController,
+                      hintText: 'Password',
+                      obscureText: true
+                    ),
+                    const SizedBox(height: 40),
+                    SecondaryButton(
+                      title: 'Log In',
+                      onPressed: signIn,
+                    ),
+                    const SizedBox(height: 100),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            const TextSpan(
+                                style: TextStyle(
+                                  fontFamily: 'JosefinSans',
+                                  color: AppColor.white,
+                                  fontSize: 16,
+                                ),
+                                text: "Not a member? "),
+                            TextSpan(
+                              style: const TextStyle(
+                                fontFamily: 'JosefinSans',
+                                color: AppColor.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                              text: 'Register Now',
+                              recognizer: TapGestureRecognizer()..onTap = () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
+                              }
+                            )
+                          ]
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
