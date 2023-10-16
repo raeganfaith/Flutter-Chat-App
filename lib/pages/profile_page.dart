@@ -2,6 +2,8 @@ import 'package:chat_app/components/appbar.dart';
 import 'package:chat_app/components/button.dart';
 import 'package:chat_app/components/my_text_field.dart';
 import 'package:chat_app/constants/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -15,6 +17,137 @@ class _ProfilePageState extends State<ProfilePage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   bool isEditMode = false;
+  User? currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    currentUser = FirebaseAuth.instance.currentUser;
+  }
+
+  Widget _buildUserData() {
+    return FutureBuilder<DocumentSnapshot>(
+      future: FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          DocumentSnapshot userSnapshot = snapshot.data!;
+          return _userData(userSnapshot);
+        } else {
+          return const Text('User information not found.');
+        }
+      },
+    );
+  }
+
+  Widget _userData(DocumentSnapshot document) {
+    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+    String? imageName = data['image'];
+
+    if (data['email'] != null) {
+      return Column(
+        children: [
+          SizedBox(
+            width: 180,
+            height: 180,
+            child: imageName != null && imageName.isNotEmpty 
+            ? CircleAvatar(
+              backgroundColor: AppColor.white,
+              backgroundImage: NetworkImage(imageName),
+            ) 
+            : const CircleAvatar(
+              backgroundColor: AppColor.silver,
+              child: Icon(
+                Icons.person,
+                color: AppColor.white,
+              ),
+            )
+          ),
+          const SizedBox(height: 30),
+          MyTextField(
+            controller: usernameController,
+            hintText: data['username'],
+            obscureText: false,
+            enabled: isEditMode,
+          ),
+          const SizedBox(height: 10),
+          MyTextField(
+            controller: usernameController,
+            hintText: data['email'],
+            obscureText: false,
+            enabled: false,
+          ),
+          const SizedBox(height: 10),
+          MyTextField(
+            controller: passwordController,
+            hintText: '********',
+            obscureText: true,
+            enabled: isEditMode,
+          ),
+          const SizedBox(height: 50),
+          Button(
+            title: isEditMode
+                ? 'Save Profile Details'
+                : 'Edit Profile Details',
+            filledIn: true,
+            onPressed: updateProfile,
+          ),
+          Visibility(
+            visible: isEditMode,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Button(
+                title: 'Cancel',
+                filledIn: false,
+                onPressed: () {
+                  setState(() {
+                    isEditMode = !isEditMode;
+                  });
+                },
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+    else {
+      return const Text('User information unavailable.');
+    }
+  }
+
+  Future<void> updateProfile() async {
+    if (isEditMode) {
+      try {
+        await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser!.uid)
+        .update({
+          'username': usernameController.text,
+        });
+
+        if (passwordController.text.isNotEmpty) {
+          await currentUser!.updatePassword(passwordController.text);
+          passwordController.clear();
+        }
+
+        setState(() {
+          isEditMode = false;
+        });
+      } catch (e) {
+        print('Error updating profile: $e');
+      }
+    } else {
+      setState(() {
+        isEditMode = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,66 +176,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(30),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            width: 180,
-                            height: 180,
-                            child: CircleAvatar(
-                              backgroundImage: AssetImage(
-                                  'assets/images/static-profile.png'),
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          MyTextField(
-                            controller: usernameController,
-                            hintText: 'Username',
-                            obscureText: false,
-                            enabled: isEditMode,
-                          ),
-                          const SizedBox(height: 10),
-                          MyTextField(
-                            controller: usernameController,
-                            hintText: 'Email',
-                            obscureText: false,
-                            enabled: false,
-                          ),
-                          const SizedBox(height: 10),
-                          MyTextField(
-                            controller: passwordController,
-                            hintText: 'Password',
-                            obscureText: false,
-                            enabled: isEditMode,
-                          ),
-                          const SizedBox(height: 50),
-                          Button(
-                            title: isEditMode ? 'Save Profile Details' : 'Edit Profile Details',
-                            filledIn: true,
-                            onPressed: () {
-                              setState(() {
-                                isEditMode = !isEditMode;
-                              });
-                            },
-                          ),
-                          Visibility(
-                            visible: isEditMode,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Button(
-                                title: 'Cancel', 
-                                filledIn: false,
-                                onPressed: () {
-                                  setState(() {
-                                    isEditMode = !isEditMode;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ),
+                        padding: const EdgeInsets.all(30),
+                        child: _buildUserData(),
+                      ),
                   ),
                 ],
               ),
