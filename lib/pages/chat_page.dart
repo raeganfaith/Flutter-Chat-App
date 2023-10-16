@@ -1,9 +1,12 @@
+import 'package:chat_app/components/appbar.dart';
 import 'package:chat_app/components/chat_bubble.dart';
 import 'package:chat_app/components/my_text_field.dart';
+import 'package:chat_app/constants/colors.dart';
 import 'package:chat_app/services/chat/chat_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ChatPage extends StatefulWidget {
   final String receiverUserEmail;
@@ -22,6 +25,7 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
   final ChatService _chatService = ChatService();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FocusNode _messageFocus = FocusNode();
 
   void sendMessage() async {
     if (_messageController.text.isNotEmpty) {
@@ -32,17 +36,34 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Request focus when the page is initialized
+    Future.delayed(Duration(milliseconds: 300), () {
+      FocusScope.of(context).requestFocus(_messageFocus);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.receiverUserEmail)),
-      body: Column(
-        children: [
-          Expanded(
-            child: _buildMessageList(),
-          ),
-          _buildMessageInput(),
-          const SizedBox(height: 25),
-        ],
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: CustomAppBar(
+          title: widget.receiverUserEmail,
+          backButton: true,
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          children: [
+            Expanded(
+              child: _buildMessageList(),
+            ),
+            _buildMessageInput(),
+          ],
+        ),
       ),
     );
   }
@@ -77,7 +98,7 @@ class _ChatPageState extends State<ChatPage> {
     return Container(
       alignment: alignment,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         child: Column(
           crossAxisAlignment:
               (data['senderId'] == _firebaseAuth.currentUser!.uid)
@@ -88,9 +109,12 @@ class _ChatPageState extends State<ChatPage> {
                   ? MainAxisAlignment.end
                   : MainAxisAlignment.start,
           children: [
-            Text(data['senderEmail']),
-            const SizedBox(height: 5),
-            ChatBubble(message: data['message'])
+            // Text(data['senderEmail']),
+            // const SizedBox(height: 5),
+            ChatBubble(
+              message: data['message'],
+              senderId: data['senderId'],
+            )
           ],
         ),
       ),
@@ -99,7 +123,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget _buildMessageInput() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      padding: const EdgeInsets.all(8),
       child: Row(
         children: [
           Expanded(
@@ -107,15 +131,21 @@ class _ChatPageState extends State<ChatPage> {
               controller: _messageController,
               hintText: 'Enter message',
               obscureText: false,
+              focusNode: _messageFocus,
             ),
           ),
-          IconButton(
-            onPressed: sendMessage,
-            icon: const Icon(
-              Icons.send,
-              size: 40,
+          const SizedBox(width: 20),
+          GestureDetector(
+            onTap: sendMessage,
+            child: SizedBox(
+              width: 35,
+              height: 35,
+              child: SvgPicture.asset(
+                'assets/images/send.svg',
+                color: AppColor.mainOrange,
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
