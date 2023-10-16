@@ -19,12 +19,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
-
-  bool _isItemDeleted = false;
 
   void signOut() {
     final authService = Provider.of<AuthService>(context, listen: false);
@@ -170,17 +166,43 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: const Text('Home Page'),
-        actions: [
-          IconButton(
-            onPressed: signOut,
-            icon: const Icon(Icons.logout),
+      backgroundColor: AppColor.mainOrange,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: CustomAppBar(
+          title: 'Chatter\'s Inbox',
+          backButton: false,
+        ),
+      ),
+      body: Stack(
+        children: [
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            top: 0,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: AppColor.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: _buildUserList()
+                    ),
+                  ],
+                ),
+              ),
+            ),
           )
         ],
       ),
-      body: _buildUserList(),
     );
   }
 }

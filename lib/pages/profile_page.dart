@@ -15,6 +15,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isEditMode = false;
   User? currentUser;
@@ -78,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 10),
           MyTextField(
-            controller: usernameController,
+            controller: emailController,
             hintText: data['email'],
             obscureText: false,
             enabled: false,
@@ -135,7 +136,6 @@ class _ProfilePageState extends State<ProfilePage> {
           await currentUser!.updatePassword(passwordController.text);
           passwordController.clear();
         }
-
         setState(() {
           isEditMode = false;
         });
