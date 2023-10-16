@@ -51,4 +51,33 @@ class ChatService extends ChangeNotifier {
         .orderBy('timestamp', descending: false)
         .snapshots();
   }
+
+  Future<void> deleteConversation(String userID, String otherUserId) async {
+    try {
+      List<String> ids = [userID, otherUserId];
+      ids.sort();
+      String chatRoomId = ids.join("_");
+
+      // Reference to the chat room document
+      DocumentReference chatRoomRef =
+          _fireStore.collection('chat_rooms').doc(chatRoomId);
+
+      // Reference to the messages collection inside the chat room document
+      CollectionReference messagesRef = chatRoomRef.collection('messages');
+
+      // Get all messages and delete each message document
+      QuerySnapshot messagesSnapshot = await messagesRef.get();
+      for (QueryDocumentSnapshot messageDoc in messagesSnapshot.docs) {
+        await messageDoc.reference.delete();
+      }
+
+      // Delete the chat room document
+      await chatRoomRef.delete();
+
+      print('Conversation deleted successfully.');
+    } catch (e) {
+      print('Error deleting conversation: $e');
+      // Handle the error as per your application's requirement
+    }
+  }
 }

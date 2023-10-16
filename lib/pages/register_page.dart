@@ -190,13 +190,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Landing()),
+                          MaterialPageRoute(
+                              builder: (context) => const Landing()),
                         );
                       },
                     ),
                     const Spacer(),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 10),
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: SvgPicture.asset(
@@ -290,7 +292,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const LoginPage()));
+                                          builder: (context) =>
+                                              const LoginPage()));
                                 })
                         ]),
                       ),
