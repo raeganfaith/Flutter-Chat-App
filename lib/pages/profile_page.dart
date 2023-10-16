@@ -2,6 +2,8 @@ import 'package:chat_app/components/appbar.dart';
 import 'package:chat_app/components/button.dart';
 import 'package:chat_app/components/my_text_field.dart';
 import 'package:chat_app/constants/colors.dart';
+import 'package:chat_app/pages/login_page.dart';
+import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,16 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    currentUser = FirebaseAuth.instance.currentUser;
+    // Listen to authentication state changes
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      if (user == null) {
+        // If the user is signed out, navigate to the login page
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => LoginPage()),
+          (Route<dynamic> route) => false,
+        );
+      }
+    });
   }
 
   Widget _buildUserData() {
@@ -55,21 +66,20 @@ class _ProfilePageState extends State<ProfilePage> {
       return Column(
         children: [
           SizedBox(
-            width: 180,
-            height: 180,
-            child: imageName != null && imageName.isNotEmpty 
-            ? CircleAvatar(
-              backgroundColor: AppColor.white,
-              backgroundImage: NetworkImage(imageName),
-            ) 
-            : const CircleAvatar(
-              backgroundColor: AppColor.silver,
-              child: Icon(
-                Icons.person,
-                color: AppColor.white,
-              ),
-            )
-          ),
+              width: 180,
+              height: 180,
+              child: imageName != null && imageName.isNotEmpty
+                  ? CircleAvatar(
+                      backgroundColor: AppColor.white,
+                      backgroundImage: NetworkImage(imageName),
+                    )
+                  : const CircleAvatar(
+                      backgroundColor: AppColor.silver,
+                      child: Icon(
+                        Icons.person,
+                        color: AppColor.white,
+                      ),
+                    )),
           const SizedBox(height: 30),
           MyTextField(
             controller: usernameController,
@@ -93,9 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 50),
           Button(
-            title: isEditMode
-                ? 'Save Profile Details'
-                : 'Edit Profile Details',
+            title: isEditMode ? 'Save Profile Details' : 'Edit Profile Details',
             filledIn: true,
             onPressed: updateProfile,
           ),
@@ -116,8 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       );
-    }
-    else {
+    } else {
       return const Text('User information unavailable.');
     }
   }
@@ -125,22 +132,28 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> updateProfile() async {
     if (isEditMode) {
       try {
-        await FirebaseFirestore.instance
-        .collection('users')
-        .doc(currentUser!.uid)
-        .update({
-          'username': usernameController.text,
-        });
+        String newUsername = usernameController.text.trim();
+        String newPassword = passwordController.text.trim();
 
-        if (passwordController.text.isNotEmpty) {
-          await currentUser!.updatePassword(passwordController.text);
-          passwordController.clear();
+        if (newUsername.isNotEmpty) {
+          await AuthService().updateProfile(newUsername, newPassword);
+        } else if (newPassword.isNotEmpty) {
+          await AuthService().updatePasswordOnly(newPassword);
+        } else {
+          return;
         }
+
         setState(() {
           isEditMode = false;
         });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Profile updated successfully'),
+          ),
+        );
       } catch (e) {
         print('Error updating profile: $e');
+        // Handle error and show error message to user if necessary
       }
     } else {
       setState(() {
@@ -176,9 +189,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
                     child: Padding(
-                        padding: const EdgeInsets.all(30),
-                        child: _buildUserData(),
-                      ),
+                      padding: const EdgeInsets.all(30),
+                      child: _buildUserData(),
+                    ),
                   ),
                 ],
               ),

@@ -37,16 +37,39 @@ class AuthService extends ChangeNotifier {
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      //after creating the user, create new document for the user in the users collection
-      // _fireStore.collection('users').doc(userCredential.user!.uid).set({
-      //   'uid': userCredential.user!.uid,
-      //   'email': email,
-      //   'password': password,
-      // });
-
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);
+    }
+  }
+
+  Future<void> updateProfile(String username, String newPassword) async {
+    User? user = _firebaseAuth.currentUser;
+    try {
+      if (user != null) {
+        // Update username in Firestore
+        await _fireStore.collection('users').doc(user.uid).update({
+          'username': username,
+        });
+
+        // Update password in Firebase Authentication
+        if (newPassword.isNotEmpty) {
+          await user.updatePassword(newPassword);
+        }
+
+        // Reload user to reflect changes
+        await user.reload();
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<void> updatePasswordOnly(String newPassword) async {
+    try {
+      await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 

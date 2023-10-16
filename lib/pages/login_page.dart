@@ -29,7 +29,12 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await authService.signInWithEmailandPassword(
           emailController.text, passwordController.text);
-      // ignore: use_build_context_synchronously
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Welcome to Chatterbox!'),
+        ),
+      );
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
@@ -65,13 +70,15 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Landing()),
+                          MaterialPageRoute(
+                              builder: (context) => const Landing()),
                         );
                       },
                     ),
                     const Spacer(),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 10),
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: SvgPicture.asset(
@@ -95,15 +102,14 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                           fontSize: 35,
                           color: AppColor.white,
-                          fontFamily: 'KronaOne'
-                      ),
+                          fontFamily: 'KronaOne'),
                     ),
                     SizedBox(height: 10),
                     Text(
                       "Enter your email and password\nto sign in.",
                       style: TextStyle(
-                          fontSize: 20,
-                          color: AppColor.white,
+                        fontSize: 20,
+                        color: AppColor.white,
                       ),
                     ),
                   ],
@@ -115,16 +121,14 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     const SizedBox(height: 70),
                     MyTextField(
-                      controller: emailController,
-                      hintText: 'Email',
-                      obscureText: false
-                    ),
+                        controller: emailController,
+                        hintText: 'Email',
+                        obscureText: false),
                     const SizedBox(height: 15),
                     MyTextField(
-                      controller: passwordController,
-                      hintText: 'Password',
-                      obscureText: true
-                    ),
+                        controller: passwordController,
+                        hintText: 'Password',
+                        obscureText: true),
                     const SizedBox(height: 40),
                     SecondaryButton(
                       title: 'Log In',
@@ -134,16 +138,15 @@ class _LoginPageState extends State<LoginPage> {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: RichText(
-                        text: TextSpan(
-                          children: [
-                            const TextSpan(
-                                style: TextStyle(
-                                  fontFamily: 'JosefinSans',
-                                  color: AppColor.white,
-                                  fontSize: 16,
-                                ),
-                                text: "Not a member? "),
-                            TextSpan(
+                        text: TextSpan(children: [
+                          const TextSpan(
+                              style: TextStyle(
+                                fontFamily: 'JosefinSans',
+                                color: AppColor.white,
+                                fontSize: 16,
+                              ),
+                              text: "Not a member? "),
+                          TextSpan(
                               style: const TextStyle(
                                 fontFamily: 'JosefinSans',
                                 color: AppColor.white,
@@ -151,12 +154,15 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 16,
                               ),
                               text: 'Register Now',
-                              recognizer: TapGestureRecognizer()..onTap = () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
-                              }
-                            )
-                          ]
-                        ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RegisterPage()));
+                                })
+                        ]),
                       ),
                     ),
                   ],

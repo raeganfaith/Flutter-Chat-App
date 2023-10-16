@@ -60,6 +60,12 @@ class _HomePageState extends State<HomePage> {
                   // Call the function to delete conversation
                   ChatService chatService = ChatService();
                   await chatService.deleteConversation(userID, otherUserID);
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Conversation deleted successfully'),
+                    ),
+                  );
                 }
               },
             ),
@@ -67,20 +73,30 @@ class _HomePageState extends State<HomePage> {
         ),
         child: ListTile(
           title: Text(data['username'] ?? 'unknown user'),
-          leading: imageName != null && imageName.isNotEmpty
+          leading: (imageName != null && imageName.isNotEmpty)
               ? CircleAvatar(
                   radius: 20,
                   backgroundColor: Colors.white,
                   backgroundImage: NetworkImage(imageName),
                 )
-              : const CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Colors.grey,
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                  ),
-                ),
+              : (data['username'] != null && data['username'].isNotEmpty)
+                  ? CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.orange,
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                    )
+                  : CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors
+                          .grey, // Use grey background for users without username
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                    ),
           onTap: () {
             Navigator.push(
               context,
@@ -108,13 +124,13 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
+              const Text(
                 'Delete Conversation',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16),
-              Text('Are you sure you want to delete this conversation?'),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
+              const Text('Are you sure you want to delete this conversation?'),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -193,9 +209,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    Expanded(
-                      child: _buildUserList()
-                    ),
+                    Expanded(child: _buildUserList()),
                   ],
                 ),
               ),

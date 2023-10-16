@@ -40,13 +40,14 @@ class _RegisterPageState extends State<RegisterPage> {
         // _isImageSelected = true;
       });
     } else {
-      final ByteData data =
-          await rootBundle.load('assets/images/static-profile.png');
-      Uint8List defaultImageBytes = data.buffer.asUint8List();
-      setState(() {
-        _image = defaultImageBytes;
-        // _isImageSelected = true;
-      });
+      // final ByteData data =
+      //     await rootBundle.load('assets/images/static-profile.png');
+      // Uint8List defaultImageBytes = data.buffer.asUint8List();
+      // setState(() {
+      //   _image = defaultImageBytes;
+      // _isImageSelected = true;
+      // });
+      return;
     }
   }
 
@@ -103,10 +104,8 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    String username = usernameController.text;
-
     // Check if the image and username are selected
-    if (username.isEmpty) {
+    if (usernameController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Please enter a username"),
@@ -115,11 +114,11 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    if (_image == null) {
-      final ByteData data =
-          await rootBundle.load('assets/images/static-profile.png');
-      _image = data.buffer.asUint8List();
-    }
+    // if (_image == null) {
+    //   final ByteData data =
+    //       await rootBundle.load('assets/images/static-profile.png');
+    //   _image = data.buffer.asUint8List();
+    // }
 
     // Get auth service
     final authService = Provider.of<AuthService>(context, listen: false);
@@ -133,28 +132,31 @@ class _RegisterPageState extends State<RegisterPage> {
       String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
       String imageName = '$uid-$timestamp.png';
 
-      if (_image != null) {
-        String imageUrl = await StoreImage()
-            .saveData(uid: uid, imageName: imageName, file: _image!);
+      String imageUrl = ''; // Default value is an empty string
 
-        // After creating the user, create a new document for the user in the users collection
-        await _fireStore.collection('users').doc(userCredential.user!.uid).set({
-          'uid': userCredential.user!.uid,
-          'email': emailController.text,
-          'username': usernameController.text,
-          'image': imageUrl, // Include the image URL in the Firestore document
-        });
-      } else {
-        // Handle the case where _image is null (user didn't select an image)
-        // You can show a snackbar or a toast message to inform the user
+      if (_image != null) {
+        imageUrl = await StoreImage()
+            .saveData(uid: uid, imageName: imageName, file: _image!);
       }
-      // ignore: use_build_context_synchronously
+
+      // Create a new document for the user in the users collection
+      await _fireStore.collection('users').doc(userCredential.user!.uid).set({
+        'uid': userCredential.user!.uid,
+        'email': emailController.text,
+        'username': usernameController.text,
+        'image': imageUrl, // Include the image URL in the Firestore document
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Registered successfully'),
+        ),
+      );
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     } catch (e) {
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error creating user data: $e'),
