@@ -1,3 +1,5 @@
+import 'package:chat_app/components/appbar.dart';
+import 'package:chat_app/constants/colors.dart';
 import 'package:chat_app/pages/landing_page.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,17 +33,43 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-        actions: [
-          //sign out button
-          IconButton(
-            onPressed: signOut,
-            icon: const Icon(Icons.logout),
+      backgroundColor: AppColor.mainOrange,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: CustomAppBar(
+          title: 'Chatter\'s Inbox',
+          backButton: false,
+        ),
+      ),
+      body: Stack(
+        children: [
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            top: 0,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: AppColor.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: _buildUserList()
+                    ),
+                  ],
+                ),
+              ),
+            ),
           )
         ],
       ),
-      body: _buildUserList(),
     );
   }
 
