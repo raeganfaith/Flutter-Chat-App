@@ -1,4 +1,4 @@
-# CHATTERBOX: A MESSAGING APPLICATION
+# 📱CHATTERBOX: A MESSAGING APPLICATION
 ## Introduction
 
   The "Chatterbox" mobile application stands out as an advanced solution in the 
