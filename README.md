@@ -1,13 +1,27 @@
-# 📱CHATTERBOX: A MESSAGING APPLICATION
+# 📱 CHATTERBOX: A MESSAGING APPLICATION
 
-[Introduction](#introduction)
-[Objectives](#objectives)
-[Significance of the Project](#significance-of-the-project)
-[Scope and Limitation](#scope-and-limitation)
-[GUI Preview](#gui-preview)
-[Conclusion and Recommendation](#conclusion-and-recommendation)
+<div id="badges" align="center">
+  <a href="#introduction">
+    <img src="https://img.shields.io/badge/Introduction-blue?style=for-the-badge" alt="Introduction Badge"/>
+  </a>
+  <a href="#objectives">
+    <img src="https://img.shields.io/badge/Objectives-blue?style=for-the-badge" alt="Objectives Badge"/>
+  </a>
+  <a href="#significance">
+    <img src="https://img.shields.io/badge/Significance-blue?style=for-the-badge" alt="Significance Badge"/>
+  </a>
+  <a href="#scope-and-limitation">
+    <img src="https://img.shields.io/badge/Scope%20and%20Limitation-blue?style=for-the-badge" alt="Scope and Limitation Badge"/>
+  </a>
+  <a href="#gui-preview">
+    <img src="https://img.shields.io/badge/GUI%20Preview-blue?style=for-the-badge" alt="GUI Preview Badge"/>
+  </a>
+  <a href="#conclusion-and-recommendation">
+    <img src="https://img.shields.io/badge/Conclusion%20and%20Recommendation-blue?style=for-the-badge" alt="Conclusion and Recommendation Badge"/>
+  </a>
+</div>
 
-## Introduction
+## Introduction <a name="introduction"></a>
 
   The "Chatterbox" mobile application stands out as an advanced solution in the 
 world of real-time messaging. It's designed is to offer users a smooth and easy way 
@@ -18,9 +32,8 @@ conversations happen instantly. Creating a lively and responsive communication
 environment. Navigating through ongoing conversations is simple, allowing users 
 to switch between chat threads effortlessly.
 
-...
 
-## Objectives
+## Objectives <a name="objectives"></a>
 - Real-time Messaging - enable users to send and receive messages in realtime to facilitate instant communication.
 - Multimedia Support – allow users to share not only text messages but also 
 multimedia content such as images, videos, and audio clips.
@@ -29,10 +42,8 @@ navigate, ensuring a positive user experience.
 - Customization – allow users to customize their profiles, chat backgrounds, 
 and notification settings to personalize their experience.
 
-...
 
-## Significance of the Project
-
+## Significance of the Project <a name="significance"></a>
 Social Impact to Community Building Chatterbox has the potential to contribute to 
 the formation of online communities, bringing people with common interests 
 together and fostering a sense of belonging. And Communication for Social 
@@ -40,10 +51,8 @@ Causes This application can be used to spread awareness, organize events, and
 mobilize support for social causes, amplifying its positive impact beyond individual 
 interactions.
 
-...
 
-## Scope and Limitation
-
+## Scope and Limitation <a name="scope-and-limitation"></a>
 The "Chatterbox" messaging application is specifically designed to cater to the 
 communication needs of the National University Manila community, encompassing 
 students, faculty, staff, and other affiliated members. With a primary focus on 
@@ -55,9 +64,8 @@ their profile details. Additionally, the application prioritizes user privacy an
 empowering users to delete conversations and maintain a sense of privacy over 
 their messaging history.
 
-...
 
-## GUI Preview
+## GUI Preview <a name="gui-preview"></a>
 
 <div style="display: flex; justify-content: space-between;">
 
@@ -79,9 +87,8 @@ their messaging history.
 
 </div>
 
-...
 
-## Conclusion and Recommendation
+## Conclusion and Recommendation <a name="conclusion-and-recommendation"></a>
 
 ### Conclusion
 
