@@ -2,6 +2,7 @@
   <h1>📱 CHATTERBOX: A MESSAGING APPLICATION</h1>
 </div>
 
+<div align="center">
 
 [![Introduction](https://img.shields.io/badge/Introduction-blue?style=for-the-badge)](#introduction)
 [![Objectives](https://img.shields.io/badge/Objectives-green?style=for-the-badge)](#objectives)
@@ -9,6 +10,8 @@
 [![Scope and Limitation](https://img.shields.io/badge/Scope%20and%20Limitation-red?style=for-the-badge)](#scope-and-limitation)
 [![GUI Preview](https://img.shields.io/badge/GUI%20Preview-gray?style=for-the-badge)](#gui-preview)
 [![Conclusion and Recommendation](https://img.shields.io/badge/Conclusion%20and%20Recommendation-pink?style=for-the-badge)](#conclusion-and-recommendation)
+
+</div>
 
 
 ## Introduction <a name="introduction"></a>
@@ -22,6 +25,36 @@ conversations happen instantly. Creating a lively and responsive communication
 environment. Navigating through ongoing conversations is simple, allowing users 
 to switch between chat threads effortlessly.
 
+To add a personal touch, "Chatterbox" provides strong profile management 
+features. Users can view and edit their profile details. This customization adds a 
+personal connection to the messaging experience, making it more engaging. The 
+app also respects user privacy and control. Users can delete conversations, giving 
+them control over their messaging history and maintaining a privacy. This feature 
+adds to a sense of user empowerment. Security is a priority in "Chatterbox," and it 
+ensures the integrity of user accounts by integrating Firebase Authentication. This 
+guarantees a secure and reliable sign-in and sign-up process, building trust among 
+users. For efficient data storage and retrieval, "Chatterbox" relies on Firebase 
+Firestore Database. This cloud-based solution not only handles messages 
+seamlessly but also ensures data consistency across devices. This integration 
+improves the reliability and accessibility of user data, creating a robust and scalable 
+infrastructure. In terms of technology, the app is built using the Flutter framework 
+with Dart as the programming language. Flutter's cross-platform capabilities 
+ensure a consistent and high-quality user interface on both Android and iOS 
+devices. This choice of technology emphasizes the commitment to providing a 
+cohesive and responsive user experience across different platforms. In conclusion, 
+"Chatterbox" is more than just a messaging application; it is a comprehensive 
+solution that prioritizes user experience, security, and personalization. By 
+combining real-time messaging with intuitive features and a robust technology 
+stack, "Chatterbox" emerges as a reliable and modern means of communication in 
+the digital age, catering to the evolving needs of users seeking efficient and 
+enjoyable messaging experiences.
+
+  In summary, "Chatterbox" is more than just a messaging app; it's a comprehensive 
+solution that focuses on user experience, security, and personalization. By 
+combining real-time messaging with user-friendly features and a strong technology 
+stack, "Chatterbox" emerges as a reliable and modern way of communication in 
+the digital age, meeting the evolving needs of users seeking efficient and enjoyable 
+messaging experiences.
 
 ## Objectives <a name="objectives"></a>
 - Real-time Messaging - enable users to send and receive messages in realtime to facilitate instant communication.
