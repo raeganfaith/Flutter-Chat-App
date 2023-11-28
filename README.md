@@ -84,21 +84,21 @@ Manila community.
 
 <div style="display: flex; justify-content: space-between;">
 
-  <img src="img/LandingPage.png" alt="Landing Page" width="320" height="700">
+  <img src="img/LandingPage.png" alt="Landing Page" width="220" height="600">
 
-  <img src="img/SignIn.jpg" alt="Landing Page" width="320" height="700">
+  <img src="img/SignIn.jpg" alt="Landing Page" width="220" height="600">
 
-  <img src="img/SignUp.jpg" alt="Landing Page" width="320" height="700">
+  <img src="img/SignUp.jpg" alt="Landing Page" width="220" height="600">
 
 </div>
 
 <div style="display: flex; justify-content: space-between;">
 
-  <img src="img/Home.png" alt="Landing Page" width="320" height="700">
+  <img src="img/Home.png" alt="Landing Page" width="220" height="600">
 
-  <img src="img/Convo.png" alt="Landing Page" width="320" height="700">
+  <img src="img/Convo.png" alt="Landing Page" width="220" height="600">
 
-  <img src="img/SaveProfileDetails.png" alt="Landing Page" width="320" height="700">
+  <img src="img/SaveProfileDetails.png" alt="Landing Page" width="220" height="600">
 
 </div>
 
