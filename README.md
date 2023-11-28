@@ -1,25 +1,15 @@
-# 📱 CHATTERBOX: A MESSAGING APPLICATION
-
-<div id="badges" align="center">
-  <a href="#introduction">
-    <img src="https://img.shields.io/badge/Introduction-blue?style=for-the-badge" alt="Introduction Badge"/>
-  </a>
-  <a href="#objectives">
-    <img src="https://img.shields.io/badge/Objectives-blue?style=for-the-badge" alt="Objectives Badge"/>
-  </a>
-  <a href="#significance">
-    <img src="https://img.shields.io/badge/Significance-blue?style=for-the-badge" alt="Significance Badge"/>
-  </a>
-  <a href="#scope-and-limitation">
-    <img src="https://img.shields.io/badge/Scope%20and%20Limitation-blue?style=for-the-badge" alt="Scope and Limitation Badge"/>
-  </a>
-  <a href="#gui-preview">
-    <img src="https://img.shields.io/badge/GUI%20Preview-blue?style=for-the-badge" alt="GUI Preview Badge"/>
-  </a>
-  <a href="#conclusion-and-recommendation">
-    <img src="https://img.shields.io/badge/Conclusion%20and%20Recommendation-blue?style=for-the-badge" alt="Conclusion and Recommendation Badge"/>
-  </a>
+<div align="center">
+  <h1>📱 CHATTERBOX: A MESSAGING APPLICATION</h1>
 </div>
+
+
+[![Introduction](https://img.shields.io/badge/Introduction-blue?style=for-the-badge)](#introduction)
+[![Objectives](https://img.shields.io/badge/Objectives-green?style=for-the-badge)](#objectives)
+[![Significance](https://img.shields.io/badge/Significance-yellow?style=for-the-badge)](#significance)
+[![Scope and Limitation](https://img.shields.io/badge/Scope%20and%20Limitation-red?style=for-the-badge)](#scope-and-limitation)
+[![GUI Preview](https://img.shields.io/badge/GUI%20Preview-gray?style=for-the-badge)](#gui-preview)
+[![Conclusion and Recommendation](https://img.shields.io/badge/Conclusion%20and%20Recommendation-pink?style=for-the-badge)](#conclusion-and-recommendation)
+
 
 ## Introduction <a name="introduction"></a>
 
