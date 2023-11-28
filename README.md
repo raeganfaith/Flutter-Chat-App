@@ -80,7 +80,29 @@ help maintain a focused and secure user experience, ensuring that "Chatterbox"
 remains a dedicated and reliable messaging solution for the National University 
 Manila community.
 
-## Features And How It Works (User Manual)
+## GUI PREVIEW
+
+<div style="display: flex; justify-content: space-between;">
+
+  <img src="img/LandingPage.png" alt="Landing Page" width="320" height="700">
+
+  <img src="img/SignIn.jpg" alt="Landing Page" width="320" height="700">
+
+  <img src="img/SignUp.jpg" alt="Landing Page" width="320" height="700">
+
+</div>
+
+<div style="display: flex; justify-content: space-between;">
+
+  <img src="img/Home.png" alt="Landing Page" width="320" height="700">
+
+  <img src="img/Convo.png" alt="Landing Page" width="320" height="700">
+
+  <img src="img/SaveProfileDetails.png" alt="Landing Page" width="320" height="700">
+
+</div>
+
+
 
 ## Conclusion and Recommendation
 
